@@ -1,3 +1,4 @@
+## Binary Search Tree
 ### Table of contents
 1. [Insert node in a BST](#insert)
 ---
