@@ -3,7 +3,7 @@
 1. [Delete a node from BST](#delete)
 2. [Find Common nodes in two BSTs](#findCommon)
 3. [Insert a node in a BST](#insert)
-4. [Lowest Comon Ancestor in a BST](#lca)
+4. [Lowest Common Ancestor in a BST](#lca)
 5. [Minimum element in a BST](#minimumElement)
 6. [Search a node in a BST](#search)
 ---
