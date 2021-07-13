@@ -5,7 +5,8 @@
 3. [Insert a node in a BST](#insert)
 4. [Lowest Common Ancestor in a BST](#lca)
 5. [Minimum element in a BST](#minimumElement)
-6. [Search a node in a BST](#search)
+6. [Print BST elements in a given range](#bstInRange)
+7. [Search a node in a BST](#search)
 ---
 ### Delete a node from BST <a name="delete"></a>
 | Data Structure | Language | Time Complexity | Space Complexity |
@@ -170,6 +171,37 @@ class Tree
             curr = curr.left;
         }
         return curr.data;
+    }
+}
+```
+---
+### Print BST elements in a given range <a name="bstInRange"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(h) |
+```java
+class Solution
+{   
+    //Function to return a list of BST elements in a given range.
+	public static ArrayList<Integer> printNearNodes(Node root,int low,int high) {
+        // code here.
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        fillArray(root, low, high, res);
+        return res;
+    }
+    
+    public static void fillArray(Node root, int l, int h, ArrayList<Integer> arr){
+        if(root == null) return;
+	//if root is greater than high then search left subtree
+        if(root.data > h) fillArray(root.left, l, h, arr);
+	//if root is smaller than low then search right subtree
+        else if(root.data < l) fillArray(root.right, l, h, arr);
+	//
+        else{
+            fillArray(root.left, l, root.data, arr);
+            arr.add(root.data);
+            fillArray(root.right, root.data, h, arr);
+        }
     }
 }
 ```
