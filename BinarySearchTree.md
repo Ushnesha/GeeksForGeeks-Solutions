@@ -1,14 +1,136 @@
 ## Binary Search Tree
 ### Table of contents
-1. [Delete a node from BST](#delete)
-2. [Find Common nodes in two BSTs](#findCommon)
-3. [Floor in BST](#floor)
-4. [Insert a node in a BST](#insert)
-5. [Lowest Common Ancestor in a BST](#lca)
-6. [Minimum element in a BST](#minimumElement)
-7. [Pair Sum in BST](#pairsum)
-8. [Print BST elements in a given range](#bstInRange)
-9. [Search a node in a BST](#search)
+1. [Bottom View of Binary Tree](#bottomview)
+2. [Ceil in BST](#ceil)
+3. [Check for BST](#bstcheck)
+4. [Delete a node from BST](#delete)
+5. [Find Common nodes in two BSTs](#findCommon)
+6. [Floor in BST](#floor)
+7. [Insert a node in a BST](#insert)
+8. [Lowest Common Ancestor in a BST](#lca)
+9. [Minimum element in a BST](#minimumElement)
+10. [Pair Sum in BST](#pairsum)
+11. [Print BST elements in a given range](#bstInRange)
+12. [Search a node in a BST](#search)
+13. [Top View of Binary Tree](#topview)
+14. [Vertical Traversal of Binary Tree](#verticalTraversal)
+---
+### Bottom View of Binary Tree <a name="bottomview"></a>
+##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(n) |
+```java
+class Solution
+{
+    static class Pair{
+        Node node;
+        int hd;
+        Pair(Node n, int h){
+            node = n;
+            hd = h;
+        }
+    }
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        // Code here
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        Queue<Pair> q = new LinkedList<Pair>();
+        TreeMap<Integer, Integer> mp = new TreeMap<Integer, Integer>();
+        q.add(new Pair(root, 0));
+        while(!q.isEmpty()){
+            Pair curr = q.poll();
+            Node node = curr.node;
+            int hd = curr.hd;
+            //override the value inside the treemap since we want the lower elements
+            mp.put(hd,node.data);
+            if(node.left != null) q.add(new Pair(node.left,hd-1));
+            if(node.right != null) q.add(new Pair(node.right, hd+1));
+        }
+        for(Map.Entry<Integer, Integer> e : mp.entrySet()){
+            res.add(e.getValue());
+        }
+        return res;
+    }
+}
+```
+---
+### Ceil in BST <a name="ceil"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(h) | O(h) |
+```java
+//iterative
+class Tree 
+{
+    //Function to return the ceil of given number in BST.
+    
+    int findCeil(Node root, int key) 
+    { 
+        if (root == null)
+            return -1;
+        // Code here
+        Node res = null;
+        while(root != null){
+            if(root.data == key)
+                return root.data;
+            else if(root.data < key)
+                root = root.right;
+            else{
+                res = root;
+                root = root.left;
+            }
+        }
+        return res == null ? -1 : res.data;
+    } 
+}
+
+//recursive
+class Tree 
+{
+    //Function to return the ceil of given number in BST.
+    
+    int findCeil(Node root, int key) 
+    { 
+        if (root == null)
+            return -1;
+        // Code here
+            if(root.data == key)
+                return root.data;
+            else if(root.data < key)
+                return Ceil(root.right, key);
+            int res = Ceil(root.left, key);
+            return res >= input ? res : root.data;
+        }
+        
+    } 
+}
+```
+---
+### Check for BST <a name="bstcheck"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(h) |
+```java
+public class Solution
+{
+    //Function to check whether a Binary Tree is BST or not.
+    int prev = Integer.MIN_VALUE;
+    boolean isBST(Node root)
+    {
+        // code here.
+        if(root == null)
+            return true;
+        //do inorder traversal and keep the previous node value
+        //if prev node value is >= current node (equals to cause bst should not contain duplicate nodes), return false
+        if(!isBST(root.left)) return false;
+        if(prev >= root.data) return false;
+        prev = root.data;
+        return isBST(root.right);
+    }
+}
+```
 ---
 ### Delete a node from BST <a name="delete"></a>
 | Data Structure | Language | Time Complexity | Space Complexity |
@@ -287,6 +409,99 @@ class BST
 	    else if(root.data > x)
 	        return search(root.left, x);
 	   else return search(root.right, x);
+    }
+}
+```
+---
+---
+### Top View of Binary Tree <a name="topview"></a>
+##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(n) |
+```java
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    
+    static class Pair{
+        Node node;
+        int hd;
+        Pair(Node n, int h){
+            node = n;
+            hd = h;
+        }
+    }
+    
+    static ArrayList<Integer> topView(Node root)
+    {
+        // add your code
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        Queue<Pair> q = new LinkedList<Pair>();
+        TreeMap<Integer, Integer> mp = new TreeMap<Integer, Integer>();
+        q.add(new Pair(root, 0));
+        while(!q.isEmpty()){
+            Pair curr = q.poll();
+            Node node = curr.node;
+            int hd = curr.hd;
+            //if the node value corresponding the hd is not present in the map 
+            //then only put the value inside the treemap otherwise ignore
+            if(!mp.containsKey(hd)){
+                mp.put(hd,node.data);
+            }
+            if(node.left != null) q.add(new Pair(node.left,hd-1));
+            if(node.right != null) q.add(new Pair(node.right, hd+1));
+        }
+        for(Map.Entry<Integer, Integer> e : mp.entrySet()){
+            res.add(e.getValue());
+        }
+        return res;
+    }
+}
+```
+---
+### Vertical Traversal of Binary Tree <a name="verticalTraversal"></a>
+##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(n) |
+```java
+class Solution
+{
+    //Function to find the vertical order traversal of Binary Tree.
+    static class Pair{
+        Node node;
+        int hd;
+        Pair(Node n, int h){
+            node = n;
+            hd = h;
+        }
+    }
+    static ArrayList <Integer> verticalOrder(Node root)
+    {
+        // add your code here
+        Queue<Pair> q = new LinkedList<Pair>();
+        TreeMap<Integer, ArrayList<Integer>> mp = new TreeMap<Integer, ArrayList<Integer>>();
+        q.add(new Pair(root, 0));
+        while(!q.isEmpty()){
+            Pair curr = q.poll();
+            Node node = curr.node;
+            int hd = curr.hd;
+            if(!mp.containsKey(hd)){
+                ArrayList lt = new ArrayList<Integer>();
+                mp.put(hd,lt);
+            }
+            mp.get(hd).add(node.data);
+            if(node.left != null) q.add(new Pair(node.left,hd-1));
+            if(node.right != null) q.add(new Pair(node.right, hd+1));
+        }
+        
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        for(Map.Entry<Integer, ArrayList<Integer>> e : mp.entrySet()){
+            res.addAll(e.getValue());
+        }
+        return res;
     }
 }
 ```
