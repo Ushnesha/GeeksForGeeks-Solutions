@@ -2,11 +2,13 @@
 ### Table of contents
 1. [Delete a node from BST](#delete)
 2. [Find Common nodes in two BSTs](#findCommon)
-3. [Insert a node in a BST](#insert)
-4. [Lowest Common Ancestor in a BST](#lca)
-5. [Minimum element in a BST](#minimumElement)
-6. [Print BST elements in a given range](#bstInRange)
-7. [Search a node in a BST](#search)
+3. [Floor in BST](#floor)
+4. [Insert a node in a BST](#insert)
+5. [Lowest Common Ancestor in a BST](#lca)
+6. [Minimum element in a BST](#minimumElement)
+7. [Pair Sum in BST](#pairsum)
+8. [Print BST elements in a given range](#bstInRange)
+9. [Search a node in a BST](#search)
 ---
 ### Delete a node from BST <a name="delete"></a>
 | Data Structure | Language | Time Complexity | Space Complexity |
@@ -109,6 +111,40 @@ class Solution
 }
 ```
 ---
+### Floor in BST <a name="floor"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(h) | O(h) |
+```java
+class Sol
+{
+    //Function to return the floor of given number in BST.
+    
+    int floor(Node root, int key) 
+    { 
+        //code here.
+        Node res = null;
+        while(root != null){
+            //if root val = key, return root
+            if(root.data == key) return root.data;
+            //if root val > key, then go to the left subtree 
+            //since left subtree is smaller than the root
+            else if(root.data > key)
+                root = root.left;
+            //else if root val < key, update the res and go to the right subtree
+            //the right subtree has data greater than the root and may find the 
+            //greatest element which is smaller than the key
+            else{
+                res = root;
+                root = root.right;
+            }
+        }
+        return (res == null) ? -1 : res.data;
+    } 
+ 
+}
+```
+---
 ### Insert a node in a BST <a name="insert"></a>
 | Data Structure | Language | Time Complexity | Space Complexity |
 | ----------- | ----------- | ----------- | ----------- |
@@ -171,6 +207,35 @@ class Tree
             curr = curr.left;
         }
         return curr.data;
+    }
+}
+```
+---
+### Pair Sum in a BST <a name="pairsum"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(h) | O(h) |
+```java
+class GFG 
+{
+    //Function to check if any pair exists in BST
+    //whose sum is equal to given value.
+    static boolean findPair(Node root, int X) 
+    {
+        // Your code
+        TreeSet<Integer> set = new TreeSet<Integer>();
+        return findPairUtil(root, X, set);
+    }
+    public static boolean findPairUtil(Node root, int X, TreeSet<Integer> set){
+        if(root == null) return false;
+        //if pair exist in left subtree return true
+        if(findPairUtil(root.left, X, set) == true) return true;
+        //if not then, if the root data's other pair exists in the set
+        if(set.contains(X - root.data) == true) return true;
+        //else add the root data in the set
+        set.add(root.data);
+        //check if the pair exist in the right subtree
+        return findPairUtil(root.right, X, set);
     }
 }
 ```
