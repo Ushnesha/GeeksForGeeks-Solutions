@@ -5,15 +5,16 @@
 3. [Check for BST](#bstcheck)
 4. [Delete a node from BST](#delete)
 5. [Find Common nodes in two BSTs](#findCommon)
-6. [Floor in BST](#floor)
-7. [Insert a node in a BST](#insert)
-8. [Lowest Common Ancestor in a BST](#lca)
-9. [Minimum element in a BST](#minimumElement)
-10. [Pair Sum in BST](#pairsum)
-11. [Print BST elements in a given range](#bstInRange)
-12. [Search a node in a BST](#search)
-13. [Top View of Binary Tree](#topview)
-14. [Vertical Traversal of Binary Tree](#verticalTraversal)
+6. [Find the closest element in BST](#closestelement)
+7. [Floor in BST](#floor)
+8. [Insert a node in a BST](#insert)
+9. [Lowest Common Ancestor in a BST](#lca)
+10. [Minimum element in a BST](#minimumElement)
+11. [Pair Sum in BST](#pairsum)
+12. [Print BST elements in a given range](#bstInRange)
+13. [Search a node in a BST](#search)
+14. [Top View of Binary Tree](#topview)
+15. [Vertical Traversal of Binary Tree](#verticalTraversal)
 ---
 ### Bottom View of Binary Tree <a name="bottomview"></a>
 ##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
@@ -230,6 +231,35 @@ class Solution
         }
         return res;
     }
+}
+```
+---
+### Find closest element in BST <a name="closestelement"></a>
+##### Given a BST and an integer. Find the least absolute difference between any node value of the BST and the given integer.
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(h) | O(h) |
+```java
+class Solution
+{
+    //Function to find the least absolute difference between any node
+    //value of the BST and the given integer.
+    static int minDiff(Node  root, int K) 
+    { 
+        // Write your code here
+        int minDiff = Integer.MAX_VALUE;
+        while(root!=null){
+            if(root.data == K) return 0;
+            else if(root.data > K){
+                minDiff = Math.min(minDiff, Math.abs(root.data - K));
+                root = root.left;
+            }else{
+                minDiff = Math.min(minDiff, Math.abs(root.data - K));
+                root = root.right;
+            }
+        }
+        return minDiff;
+    } 
 }
 ```
 ---
