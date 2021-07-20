@@ -4,19 +4,20 @@
 2. [Ceil in BST](#ceil)
 3. [Check for BST](#bstcheck)
 4. [Convert Level Order Traversal to BST](#convertLevelOrder)
-5. [Count BST nodes that lie in a given range](#countNodesinRange)
-6. [Delete a node from BST](#delete)
-7. [Find Common nodes in two BSTs](#findCommon)
-8. [Find the closest element in BST](#closestelement)
-9. [Floor in BST](#floor)
-10. [Insert a node in a BST](#insert)
-11. [Lowest Common Ancestor in a BST](#lca)
-12. [Minimum element in a BST](#minimumElement)
-13. [Pair Sum in BST](#pairsum)
-14. [Print BST elements in a given range](#bstInRange)
-15. [Search a node in a BST](#search)
-16. [Top View of Binary Tree](#topview)
-17. [Vertical Traversal of Binary Tree](#verticalTraversal)
+5. [Construct BST from preorder traversal](#constructBstFromPreorder)
+6. [Count BST nodes that lie in a given range](#countNodesinRange)
+7. [Delete a node from BST](#delete)
+8. [Find Common nodes in two BSTs](#findCommon)
+9. [Find the closest element in BST](#closestelement)
+10. [Floor in BST](#floor)
+11. [Insert a node in a BST](#insert)
+12. [Lowest Common Ancestor in a BST](#lca)
+13. [Minimum element in a BST](#minimumElement)
+14. [Pair Sum in BST](#pairsum)
+15. [Print BST elements in a given range](#bstInRange)
+16. [Search a node in a BST](#search)
+17. [Top View of Binary Tree](#topview)
+18. [Vertical Traversal of Binary Tree](#verticalTraversal)
 ---
 ### Bottom View of Binary Tree <a name="bottomview"></a>
 ##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
@@ -165,6 +166,43 @@ class GFG
         
         return root;
     }
+}
+```
+---
+### Construct BST from preorder traversal <a name="constructBstFromPreorder"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(n) |
+```java
+static class Index{
+    int index = 0;
+}
+
+//Function that constructs BST from its preorder traversal.
+
+public static Node constructTree(int pre[], int size) 
+{
+    //Your code here
+    Index index = new Index();
+    return treeBuild(pre, index, 0, size-1, size);
+    
+} 
+
+public static Node treeBuild(int pre[], Index preIndex, int l, int h, int size){
+    if(preIndex.index >= size || l>h) return null;
+    Node root = new Node(pre[preIndex.index]);
+    preIndex.index = preIndex.index + 1;
+    if(l==h) return root;
+    int i;
+    //in preorder right subtree will start from the element greater than the root
+    //before that it will be in the left subtree
+    for(i = l; i <= h; ++i){
+        if(pre[i] > root.data)
+        break;
+    }
+    root.left = treeBuild(pre, preIndex, preIndex.index, i-1, size);
+    root.right = treeBuild(pre, preIndex, i, h, size);
+    return root;
 }
 ```
 ---
