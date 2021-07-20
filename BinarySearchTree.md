@@ -3,18 +3,20 @@
 1. [Bottom View of Binary Tree](#bottomview)
 2. [Ceil in BST](#ceil)
 3. [Check for BST](#bstcheck)
-4. [Delete a node from BST](#delete)
-5. [Find Common nodes in two BSTs](#findCommon)
-6. [Find the closest element in BST](#closestelement)
-7. [Floor in BST](#floor)
-8. [Insert a node in a BST](#insert)
-9. [Lowest Common Ancestor in a BST](#lca)
-10. [Minimum element in a BST](#minimumElement)
-11. [Pair Sum in BST](#pairsum)
-12. [Print BST elements in a given range](#bstInRange)
-13. [Search a node in a BST](#search)
-14. [Top View of Binary Tree](#topview)
-15. [Vertical Traversal of Binary Tree](#verticalTraversal)
+4. [Convert Level Order Traversal to BST](#convertLevelOrder)
+5. [Count BST nodes that lie in a given range](#countNodesinRange)
+6. [Delete a node from BST](#delete)
+7. [Find Common nodes in two BSTs](#findCommon)
+8. [Find the closest element in BST](#closestelement)
+9. [Floor in BST](#floor)
+10. [Insert a node in a BST](#insert)
+11. [Lowest Common Ancestor in a BST](#lca)
+12. [Minimum element in a BST](#minimumElement)
+13. [Pair Sum in BST](#pairsum)
+14. [Print BST elements in a given range](#bstInRange)
+15. [Search a node in a BST](#search)
+16. [Top View of Binary Tree](#topview)
+17. [Vertical Traversal of Binary Tree](#verticalTraversal)
 ---
 ### Bottom View of Binary Tree <a name="bottomview"></a>
 ##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
@@ -129,6 +131,72 @@ public class Solution
         if(prev >= root.data) return false;
         prev = root.data;
         return isBST(root.right);
+    }
+}
+```
+---
+### Convert Level Order Traversal to BST <a name="convertLevelOrder"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(n) |
+```java
+class GFG 
+{
+    //Function to construct the BST from its given level order traversal.
+    public Node constructBST(int[] arr)
+    {
+        //Write your code here 
+        Node root = null;
+        for(int i = 0; i < arr.length; i++){
+            root = getBST(root, arr[i]);
+        }
+        return root;
+        
+    }
+    public Node getBST(Node root, int x){
+        if(root == null){
+            return new Node(x);
+        }
+        if(root.data > x){
+            root.left = getBST(root.left, x);
+        }else{
+            root.right = getBST(root.right, x);
+        }
+        
+        return root;
+    }
+}
+```
+---
+### Count BST nodes that lie in a given range <a name="countNodesinRange"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(h) |
+```java
+class Tree
+{
+    //Function to count number of nodes in BST that lie in the given range.
+    int count = 0;
+    int getCount(Node root,int l, int h)
+    {
+        //Your code here
+        getCountUtil(root,l,h);
+        return count;
+    }
+    void getCountUtil(Node root, int l, int h){
+        if(root == null) return;
+        if(root.data < l)
+            getCountUtil(root.right, l, h);
+        else if(root.data > h)
+            getCountUtil(root.left, l, h);
+        
+        else{
+            count++;
+            getCountUtil(root.left, l, root.data);
+            getCountUtil(root.right, root.data, h);
+        }
+            
+        
     }
 }
 ```
