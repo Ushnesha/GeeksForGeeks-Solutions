@@ -12,12 +12,13 @@
 10. [Floor in BST](#floor)
 11. [Insert a node in a BST](#insert)
 12. [Lowest Common Ancestor in a BST](#lca)
-13. [Minimum element in a BST](#minimumElement)
-14. [Pair Sum in BST](#pairsum)
-15. [Print BST elements in a given range](#bstInRange)
-16. [Search a node in a BST](#search)
-17. [Top View of Binary Tree](#topview)
-18. [Vertical Traversal of Binary Tree](#verticalTraversal)
+13. [Merge Two BSTs](#mergebst)
+14. [Minimum element in a BST](#minimumElement)
+15. [Pair Sum in BST](#pairsum)
+16. [Print BST elements in a given range](#bstInRange)
+17. [Search a node in a BST](#search)
+18. [Top View of Binary Tree](#topview)
+19. [Vertical Traversal of Binary Tree](#verticalTraversal)
 ---
 ### Bottom View of Binary Tree <a name="bottomview"></a>
 ##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
@@ -444,6 +445,135 @@ class BST
         else if(root.data < n1 && root.data < n2)
             return LCA(root.right, n1, n2);
         else return root;
+    }
+    
+}
+```
+---
+### Merge Two BSTs <a name="mergebst"></a>
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(m+n) | O(m+n) |
+```java
+class SNode{
+    SNode head;
+    Node t;
+    SNode next;
+    
+    void push(Node k){
+        SNode tmp = new SNode();
+        tmp.t = k;
+        tmp.next = this.head;
+        this.head = tmp;
+    }
+    
+    Node pop(){
+        
+        SNode st;
+        st = this.head;
+        head = head.next;
+        return st.t;
+        
+    }
+    
+    boolean isEmpty(){
+        return (this.head == null);
+    }
+    
+}
+
+class Solution
+{
+    //Function to return a list of integers denoting the node 
+    //values of both the BST in a sorted order.
+    
+    //used iterative inorder traversal method
+    //and put elements in the resultant array in sorted order
+    public List<Integer> merge(Node root1,Node root2)
+    {
+        // Write your code here
+        List<Integer> res = new ArrayList<Integer>();
+        SNode s1 = new SNode();
+        SNode s2 = new SNode();
+        Node curr1 = root1;
+        Node curr2 = root2;
+        
+        //if root1 is null return the inorder of root2
+        if(root1 == null){
+            inorder(root2,res);
+            return res;
+        }
+        //if root2 is null return the inorder of root1
+        if(root2 == null){
+            inorder(root1,res);
+            return res;
+        }
+        
+        while(curr1!=null || curr2 != null || !s1.isEmpty() || !s2.isEmpty()){
+            //if curr1 and curr2 are not null then insert all the 
+            //left childs to s1 and s2 till curr1 and curr2 becomes null
+            while(curr1!=null || curr2!=null){
+                if(curr1!=null){
+                    s1.push(curr1);
+                    curr1 = curr1.left;
+                }
+                if(curr2!=null){
+                    s2.push(curr2);
+                    curr2 = curr2.left;
+                }
+            }
+            //if one of the stacks is empty, then pop the elements of another stack
+            //make its left child null as left child has already iterated and return its inorder
+            if(s1.isEmpty()){
+                while(!s2.isEmpty()){
+                    curr2 = s2.pop();
+                    curr2.left=null;
+                    inorder(curr2,res);
+                }
+                return res;
+            }
+            if(s2.isEmpty()){
+                while(!s1.isEmpty()){
+                    curr1 = s1.pop();
+                    curr1.left=null;
+                    inorder(curr1,res);
+                }
+                return res;
+            }
+            //pop the top elements from the stacks and compare since top 
+            //elements in the stack contains the min element
+            curr1 = s1.pop();
+            curr2 = s2.pop();
+            //if curr1.data < curr2.data then add curr1.data into res array.
+            //now curr1's right subtree to be iterated, curr1 becomes curr1.right
+            //in order to traverse the right subtree in the next iteration.
+            //push back curr2 into s2 since it is not used and is required for next check.
+            //make curr2 null so that only curr1 will be evaluated in the next iteration.
+            if(curr1.data < curr2.data){
+                res.add(curr1.data);
+                curr1 = curr1.right;
+                s2.push(curr2);
+                curr2 = null;
+            //if curr2.data <= curr1.data then add curr2.data into res array.
+            //now curr2's right subtree to be iterated, curr2 becomes curr2.right
+            //in order to traverse the right subtree in the next iteration.
+            //push back curr1 into s1 since it is not used and is required for next check.
+            //make curr1 null so that only curr2 will be evaluated in the next iteration.
+            }else{
+                res.add(curr2.data);
+                curr2 = curr2.right;
+                s1.push(curr1);
+                curr1=null;
+            }
+        }
+        return res;
+        
+    }
+    public void inorder(Node root, List<Integer> arr){
+        if(root == null) return;
+        inorder(root.left, arr);
+        arr.add(root.data);
+        inorder(root.right, arr);
     }
     
 }
