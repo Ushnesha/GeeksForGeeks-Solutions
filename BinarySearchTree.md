@@ -9,16 +9,17 @@
 7. [Delete a node from BST](#delete)
 8. [Find Common nodes in two BSTs](#findCommon)
 9. [Find the closest element in BST](#closestelement)
-10. [Floor in BST](#floor)
-11. [Insert a node in a BST](#insert)
-12. [Lowest Common Ancestor in a BST](#lca)
-13. [Merge Two BSTs](#mergebst)
-14. [Minimum element in a BST](#minimumElement)
-15. [Pair Sum in BST](#pairsum)
-16. [Print BST elements in a given range](#bstInRange)
-17. [Search a node in a BST](#search)
-18. [Top View of Binary Tree](#topview)
-19. [Vertical Traversal of Binary Tree](#verticalTraversal)
+10. [Fixing Two nodes of a BST](#fixing)
+11. [Floor in BST](#floor)
+12. [Insert a node in a BST](#insert)
+13. [Lowest Common Ancestor in a BST](#lca)
+14. [Merge Two BSTs](#mergebst)
+15. [Minimum element in a BST](#minimumElement)
+16. [Pair Sum in BST](#pairsum)
+17. [Print BST elements in a given range](#bstInRange)
+18. [Search a node in a BST](#search)
+19. [Top View of Binary Tree](#topview)
+20. [Vertical Traversal of Binary Tree](#verticalTraversal)
 ---
 ### Bottom View of Binary Tree <a name="bottomview"></a>
 ##### If 2 nodes lie in the same vertical level, they should be printed in the order they appear in the level order traversal of the tree.
@@ -367,6 +368,41 @@ class Solution
         }
         return minDiff;
     } 
+}
+```
+---
+### Fixing Two nodes of a BST <a name="fixing"></a>
+##### Two of the nodes of a Binary Search Tree (BST) are swapped. Fix (or correct) the BST by swapping them back. Do not change the structure of the tree
+| Data Structure | Language | Time Complexity | Space Complexity |
+| ----------- | ----------- | ----------- | ----------- |
+| BST | Java | O(n) | O(h) |
+```java
+class Sol
+{
+    //Function to fix a given BST where two nodes are swapped. 
+    Node first = null, second = null, prev = null;
+    public Node correctBST(Node root)
+    {
+        //code here.
+        inorderTrav(root);
+        int temp = first.data;
+        first.data = second.data;
+        second.data = temp;
+        
+        return root;
+        
+    }
+    
+    public void inorderTrav(Node root){
+        if(root == null) return;
+        inorderTrav(root.left);
+        if(prev != null && prev.data > root.data){
+            if(first == null) first=prev;
+            second = root;
+        }
+        prev = root;
+        inorderTrav(root.right);
+    }  
 }
 ```
 ---
