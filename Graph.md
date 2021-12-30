@@ -5,6 +5,7 @@
 ---
 ### BFS of a Graph <a name="bfs"></a>
 ##### The task is to do Breadth First Traversal of the graph starting from 0.
+<a href="url"><img src="https://github.com/Ushnesha/GeeksForGeeks-Solutions/blob/master/images/Graph/bfs%20of%20graph.PNG" width="400"></a>
 ```java
 class Solution {
     // Function to return Breadth First Traversal of given graph.
