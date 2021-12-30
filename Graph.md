@@ -120,6 +120,8 @@ class GFG {
 		    System.out.print(dst[i]+", ");
 		}
 	}
+	
+	//output : 0 1 1 2
 }
 ```
 ---
