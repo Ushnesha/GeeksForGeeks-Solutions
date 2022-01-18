@@ -1,9 +1,27 @@
 #### Sort 2D array with comparators
 ##### a.
 ```java
-Arrays.sort(logs, Comparator.comparingInt(o -> o[0]));
+class object implements Comparable<object>{
+  int x;
+  int y;
+  object(int a, int b){
+    x=a;
+    y=b;
+  }
+  public int compateTo(object ob){
+    return this.x-ob.x;
+  }
+}
+public void main(String[] args){
+  object obs[];
+  Arrays.sort(obs);
+}
 ```
 ##### b.
+```java
+Arrays.sort(logs, Comparator.comparingInt(o -> o[0]));
+```
+##### c.
 ```java
 // for asc
 Arrays.sort(logs, (a,b) -> a[0]-b[0])
