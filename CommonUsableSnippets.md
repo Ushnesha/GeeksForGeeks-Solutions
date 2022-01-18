@@ -25,3 +25,11 @@ PriorityQueue<object> pq = new PriorityQueue<object>((a,b) -> a.x - b.x)
 // for max heap
 PriorityQueue<object> pq = new PriorityQueue<object>((a,b) -> b.x - a.x)
 ```
+#### HashMap computeIfAbsent - if the key is not present then add the key-value to the map otherwise do nothing
+```java
+HashMap<Integer,ArrayList<Integer>> hm = new HashMap<Integer,ArrayList<Integer>>();
+for(int i = 0; i < arr.length; i++){
+  hm.computeIfAbsent(i, new ArrayList<Integer>());
+  hm.get(i).add(arr[i]);
+}
+```
