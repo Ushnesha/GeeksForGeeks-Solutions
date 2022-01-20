@@ -2,7 +2,8 @@
 ### Table of contents
 1. [BFS of a Graph](#bfs)
 2. [DFS of a Graph](#dfs) 
-3. [Shortest path in an unweighted graph](#shortestpath)
+3. [Detect cycle in an undirected graph](#detectCycleUndirected)
+4. [Shortest path in an unweighted graph](#shortestpath)
 
 ---
 ### BFS of a Graph <a name="bfs"></a>
@@ -56,6 +57,38 @@ class Solution {
             }
         }
     }
+}
+```
+---
+### Detect cycle in an undirected graph <a name="detectCycleUndirected"></a>
+##### Sol: if on dfs we get a node whose adj is already visited which is not its parent, then a cycle is detected 
+```java
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        boolean vis[] = new boolean[V];
+        for(int i = 0; i < V; i++){
+            if(!vis[i] && dfs(adj,vis,i,-1)){
+                return true;
+            }
+        }
+        return false;
+    }
+     public boolean dfs(ArrayList<ArrayList<Integer>> adj, boolean[] vis, int s, int par){
+         vis[s] = true;
+         for(int nbr : adj.get(s)){
+             if(!vis[nbr]){
+                 if(dfs(adj,vis,nbr,s)) return true;
+             }
+	     // nbr already visited
+             else{
+	     	// check if its equal to parent or not
+                 if(nbr!=par) return true;
+             }
+         }
+         return false;
+     }
 }
 ```
 ---
