@@ -4,7 +4,8 @@
 2. [DFS of a Graph](#dfs) 
 3. [Detect cycle in an undirected graph](#detectCycleUndirected)
 4. [Detect cycle in a directed graph](#detectCycleDirected)
-5. [Shortest path in an unweighted graph](#shortestpath)
+5. [Find whether path exist](#findPath)
+6. [Shortest path in an unweighted graph](#shortestpath)
 
 ---
 ### BFS of a Graph <a name="bfs"></a>
@@ -116,6 +117,32 @@ class Solution {
         }
         recSt[s] = false;
         return false;
+    }
+}
+```
+---
+### Find whether path exist <a name="findPath"></a>
+##### Check whether there is a path possible from the source to destination. Src=1, dest=2, emptyCell=3, wall=0
+```java
+class Solution
+{
+    //Function to find whether a path exists from the source to destination.
+    public boolean is_Possible(int[][] grid)
+    {
+        // Code here
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if(grid[i][j] == 1) return found(grid,i,j);
+            }
+        }
+        return false;
+    }
+    public boolean found(int[][] grid, int i, int j){
+        if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] == 0) return false;
+        if(grid[i][j] == 2) return true;
+        grid[i][j] = 0;
+        return found(grid,i+1,j) || found(grid,i-1,j) || found(grid,i,j+1)
+                    || found(grid,i,j-1);
     }
 }
 ```
