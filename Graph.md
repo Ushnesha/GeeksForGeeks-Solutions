@@ -6,6 +6,7 @@
 4. [Detect cycle in a directed graph](#detectCycleDirected)
 5. [Find whether path exist](#findPath)
 6. [Shortest path in an unweighted graph](#shortestpath)
+7. [Topological Sort(DFS)](#topoSortDFS)
 
 ---
 ### BFS of a Graph <a name="bfs"></a>
@@ -94,7 +95,7 @@ class Solution {
 }
 ```
 ---
-### Detect cycle in a Directed graph <a name="detectCycleUndirected"></a>
+### Detect cycle in a Directed graph <a name="detectCycleDirected"></a>
 ##### Sol: if on dfs we get a node whose adj is already visited which is in the recursion stack recSt[], then a cycle is detected 
 ```java
 class Solution {
@@ -212,6 +213,40 @@ class GFG {
 	}
 	
 	//output : 0 1 1 2
+}
+```
+---
+### Topological Sort(DFS) <a name="topoSortDFS"></a>
+```java
+class Solution
+{
+    //Function to return list containing vertices in Topological order. 
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {
+        // add your code here
+        boolean vis[] = new boolean[V];
+        Stack<Integer> st = new Stack<Integer>();
+        for(int i = 0; i < V; i++){
+            if(!vis[i]){
+                topoSortUtil(adj,vis,st,i);
+            }
+        }
+        int res[] = new int[V];
+        int i=0;
+        while(!st.isEmpty()){
+            res[i++]=st.pop();
+        }
+        return res;
+    }
+    public static void topoSortUtil(ArrayList<ArrayList<Integer>> adj, boolean vis[], Stack<Integer> st, int s){
+        vis[s] = true;
+        for(int nbr : adj.get(s)){
+            if(!vis[nbr]){
+                topoSortUtil(adj,vis,st,nbr);
+            }
+        }
+        st.push(s);
+    }
 }
 ```
 ---
