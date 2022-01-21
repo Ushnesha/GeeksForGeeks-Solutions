@@ -7,6 +7,7 @@
 5. [Find whether path exist](#findPath)
 6. [Shortest path in an unweighted graph](#shortestpath)
 7. [Topological Sort(DFS)](#topoSortDFS)
+8. [Topological Sort (Kahn's Algorithm)](#topoSortKahn)
 
 ---
 ### BFS of a Graph <a name="bfs"></a>
@@ -250,3 +251,39 @@ class Solution
 }
 ```
 ---
+### Topological Sort(Kahn's Algorithm) <a name="topoSortKahn"></a>
+```java
+class Solution
+{
+    //Function to return list containing vertices in Topological order. 
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {
+        // add your code here
+        int res[] = new int[V];
+        int k=0;
+        int indegree[] = new int[V];
+        for(int i = 0; i < V; i++){
+            for(int nbr : adj.get(i)){
+                indegree[nbr]++;
+            }
+        }
+        Queue<Integer> q = new LinkedList<Integer>();
+        for(int i = 0; i < V; i++){
+            if(indegree[i] == 0){
+                q.add(i);
+            }
+        }
+        while(!q.isEmpty()){
+            int p = q.poll();
+            res[k++] = p;
+            for(int nbr : adj.get(p)){
+                indegree[nbr]--;
+                if(indegree[nbr]==0) q.add(nbr);
+            }
+        }
+        return res;
+    }
+}
+```
+---
+
