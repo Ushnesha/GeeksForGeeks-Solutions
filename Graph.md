@@ -3,7 +3,8 @@
 1. [BFS of a Graph](#bfs)
 2. [DFS of a Graph](#dfs) 
 3. [Detect cycle in an undirected graph](#detectCycleUndirected)
-4. [Shortest path in an unweighted graph](#shortestpath)
+4. [Detect cycle in a directed graph](#detectCycleDirected)
+5. [Shortest path in an unweighted graph](#shortestpath)
 
 ---
 ### BFS of a Graph <a name="bfs"></a>
@@ -89,6 +90,33 @@ class Solution {
          }
          return false;
      }
+}
+```
+---
+### Detect cycle in a Directed graph <a name="detectCycleUndirected"></a>
+##### Sol: if on dfs we get a node whose adj is already visited which is in the recursion stack recSt[], then a cycle is detected 
+```java
+class Solution {
+    // Function to detect cycle in a directed graph.
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        // code here
+        boolean recSt[] = new boolean[V];
+        boolean vis[] = new boolean[V];
+        for(int i = 0; i < V; i++){
+            if(!vis[i] && cycleCheck(adj,vis,recSt,i)) return true;
+        }
+        return false;
+    }
+    public boolean cycleCheck(ArrayList<ArrayList<Integer>> adj, boolean vis[], boolean recSt[], int s){
+        vis[s] = true;
+        recSt[s] = true;
+        for(int nbr : adj.get(s)){
+            if(!vis[nbr] && cycleCheck(adj,vis,recSt,nbr)) return true;
+            else if(recSt[nbr] == true) return true;
+        }
+        recSt[s] = false;
+        return false;
+    }
 }
 ```
 ---
