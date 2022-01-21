@@ -139,7 +139,9 @@ class Solution
     }
     public boolean found(int[][] grid, int i, int j){
         if(i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] == 0) return false;
-        if(grid[i][j] == 2) return true;
+        // if destination found, return true
+	if(grid[i][j] == 2) return true;
+	//once visited make the current cell 0, to prevent back traversal
         grid[i][j] = 0;
         return found(grid,i+1,j) || found(grid,i-1,j) || found(grid,i,j+1)
                     || found(grid,i,j-1);
