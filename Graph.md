@@ -6,8 +6,9 @@
 4. [Detect cycle in a directed graph](#detectCycleDirected)
 5. [Find whether path exist](#findPath)
 6. [Shortest path in an unweighted graph](#shortestpath)
-7. [Topological Sort(DFS)](#topoSortDFS)
-8. [Topological Sort (Kahn's Algorithm)](#topoSortKahn)
+7. [Steps by Knight](#knight)
+8. [Topological Sort(DFS)](#topoSortDFS)
+9. [Topological Sort (Kahn's Algorithm)](#topoSortKahn)
 
 ---
 ### BFS of a Graph <a name="bfs"></a>
@@ -214,6 +215,54 @@ class GFG {
 	}
 	
 	//output : 0 1 1 2
+}
+```
+---
+### Steps by Knight <a name="knight"></a>
+##### Given a square chessboard, the initial position of Knight and position of a target. Find out the minimum steps a Knight will take to reach the target position.
+```java
+class Pair{
+    int x;
+    int y;
+    Pair(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Solution
+{
+    //Function to find out minimum steps Knight needs to reach target position.
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        // Code here
+        Queue<Pair> q = new LinkedList<Pair>();
+        int dst[][] = new int[N][N];
+        int vis[][] = new int[N][N];
+        int dx[] = {-2,-2,-1,1,2,2,-1,1};
+        int dy[] = {-1,1,-2,-2,-1,1,2,2};
+        int srcX = KnightPos[0]-1;
+        int srcY = KnightPos[1]-1;
+        q.add(new Pair(srcX,srcY));
+        while(!q.isEmpty()){
+            Pair p = q.poll();
+            if(p.x==TargetPos[0]-1 && p.y==TargetPos[1]-1) return dst[p.x][p.y];
+            for(int i = 0; i < 8; i++){
+                if(isValid(p.x+dx[i], p.y+dy[i], N, vis)){
+                    int nX = p.x+dx[i];
+                    int nY = p.y+dy[i];
+                    dst[nX][nY] = dst[p.x][p.y]+1;
+                    q.add(new Pair(nX,nY));
+                    vis[nX][nY]=1;
+                }
+            }
+        }
+        return -1;
+    }
+    public boolean isValid(int i, int j, int N, int[][] dst){
+        if(i<0 || i >= N || j < 0 || j >= N || dst[i][j] == 1) return false;
+        return true;
+    }
 }
 ```
 ---
