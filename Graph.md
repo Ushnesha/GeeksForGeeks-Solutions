@@ -4,11 +4,12 @@
 2. [DFS of a Graph](#dfs) 
 3. [Detect cycle in an undirected graph](#detectCycleUndirected)
 4. [Detect cycle in a directed graph](#detectCycleDirected)
-5. [Find whether path exist](#findPath)
-6. [Shortest path in an unweighted graph](#shortestpath)
-7. [Steps by Knight](#knight)
-8. [Topological Sort(DFS)](#topoSortDFS)
-9. [Topological Sort (Kahn's Algorithm)](#topoSortKahn)
+5. [Dijsktra's Algorithm](#dijsktra)
+6. [Find whether path exist](#findPath)
+7. [Shortest path in an unweighted graph](#shortestpath)
+8. [Steps by Knight](#knight)
+9. [Topological Sort(DFS)](#topoSortDFS)
+10. [Topological Sort (Kahn's Algorithm)](#topoSortKahn)
 
 ---
 ### BFS of a Graph <a name="bfs"></a>
@@ -120,6 +121,59 @@ class Solution {
         }
         recSt[s] = false;
         return false;
+    }
+}
+```
+---
+### Implementing Dijsktra's Algorithm <a name="dijsktra"></a>
+##### Given a weighted, undirected and connected graph of V vertices and E edges, Find the shortest distance of all the vertex's from the source vertex S.
+```java
+class NodeG implements Comparable<NodeG> {
+    int weight;
+    int vertex;
+    NodeG(int w, int v){
+        weight = w;
+        vertex = v;
+    }
+    public int compareTo(NodeG o) {
+        return this.weight == o.weight ? this.vertex-o.vertex : this.weight-o.weight;
+    }
+}
+
+class Solution
+{
+    //Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
+    {
+        // Write your code here
+        boolean[] chosenNodes = new boolean[V];
+        NodeG[] e = new NodeG[V];
+        TreeSet<NodeG> q = new TreeSet<NodeG>();
+        for(int i = 0; i < V; i++){
+            e[i]= new NodeG(Integer.MAX_VALUE,i);
+        }
+        e[S].weight = 0;
+        for(int i = 0; i < V; i++){
+            q.add(e[i]);
+        }
+        while(!q.isEmpty()){
+            NodeG p = q.pollFirst();
+            chosenNodes[p.vertex] = true;
+            // System.out.println(p.vertex + " "+ p.weight);
+            for(ArrayList<Integer> nbr : adj.get(p.vertex)){
+                if(chosenNodes[nbr.get(0)] == false && p.weight+nbr.get(1) < e[nbr.get(0)].weight){
+                    q.remove(e[nbr.get(0)]);
+                    e[nbr.get(0)].weight = p.weight+nbr.get(1);
+                    q.add(e[nbr.get(0)]);
+                }
+            }
+        }
+        int[] dst = new int[V];
+        for(int i = 0; i < V; i++){
+            dst[i] = e[i].weight;
+        }
+        return dst;
     }
 }
 ```
